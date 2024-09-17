@@ -1,0 +1,93 @@
+openapi: 3.0.0
+info:
+  title: Alunos API
+  description: API para gerenciamento de dados de alunos
+  version: 1.0.0
+paths:
+  /alunos:
+    get:
+      summary: Listar alunos
+      responses:
+        '200':
+          description: Lista de alunos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aluno'
+    post:
+      summary: Criar um novo aluno
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+      responses:
+        '201':
+          description: Aluno criado com sucesso
+components:
+  schemas:
+    Aluno:
+      type: object
+      properties:
+        ALUNO:
+          type: string
+          description: Número de matrícula do aluno
+          pattern: '^[0-9]{15}$'
+        NOME_COMPL:
+          type: string
+          description: Nome completo do aluno
+        MODALIDADE:
+          type: string
+          enum:
+            - EDUCAÇÃO DE JOVENS E ADULTOS
+          description: Modalidade de ensino
+        CURSO:
+          type: string
+          description: Curso no qual o aluno está matriculado
+        SERIE:
+          type: integer
+          description: Série do aluno
+          minimum: 1
+          maximum: 4
+        TURNO:
+          type: string
+          enum:
+            - M
+            - T
+            - N
+          description: Turno em que o aluno estuda (M: Matutino, T: Vespertino, N: Noturno)
+        ANO_LETIVO:
+          type: integer
+          description: Ano letivo
+        PERIODO_LETIVO:
+          type: integer
+          enum:
+            - 1
+            - 2
+          description: Período letivo (1: primeiro semestre, 2: segundo semestre)
+        DATA_CONFIRMACAO:
+          type: string
+          format: date
+          description: Data de confirmação da matrícula
+        DATA_IMPRESSAO:
+          type: string
+          format: date
+          nullable: true
+          description: Data de impressão do documento, se aplicável
+        TURMA:
+          type: string
+          description: Código da turma
+      required:
+        - ALUNO
+        - NOME_COMPL
+        - MODALIDADE
+        - CURSO
+        - SERIE
+        - TURNO
+        - ANO_LETIVO
+        - PERIODO_LETIVO
+        - DATA_CONFIRMACAO
+        - TURMA
